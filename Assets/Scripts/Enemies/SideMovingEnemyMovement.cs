@@ -11,9 +11,13 @@ public class SideMovingEnemyMovement : EnemyClassesParent
     }
     private void Update()
     {
-        if(transform.position.z > 5 || transform.position.z < -4)
+        if(transform.position.z > 5 )
         {
-            directionCorrector *= -1;
+            directionCorrector = -1;
+        }
+        else if (transform.position.z < -4)
+        {
+            directionCorrector = 1;
         }
     }
 

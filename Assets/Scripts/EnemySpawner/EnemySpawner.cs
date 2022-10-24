@@ -69,9 +69,9 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnUniqueWave()
     {
-        GameObject enemy =
+        GameObject uniqueEnemy =
  Instantiate(Resources.Load("Enemies/UniqueEnemy1"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
-        enemy.GetComponent<EnemyClassesParent>().speed = enemiesSpeed;
+        uniqueEnemy.GetComponent<EnemyClassesParent>().speed = enemiesSpeed;
     }
     private void ResetEnemieSpawnPointsList()
     {
@@ -85,6 +85,7 @@ public class EnemySpawner : MonoBehaviour
         {
             difficultyModifier++;
             SetValuesFromDifficultyModifier();
+            increaseDifficultyModifierCounter = 0;
         }
     }
 

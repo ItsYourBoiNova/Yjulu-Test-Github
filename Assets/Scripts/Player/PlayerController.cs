@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
                 return;
             health--;
             SetToTransparentMaterial();
-            if (health < 0)
+            if (health <= 0)
             {
                 Debug.Log("Death");
                 return;
@@ -162,14 +162,14 @@ public class PlayerController : MonoBehaviour
    private void SetToTransparentMaterial()
     {
         //material 1 is the bottom and 0 is the top
-        m_meshRenderer.materials[1] = Resources.Load("Materials/RedTransparentMaterial") as Material;
-        m_meshRenderer.materials[0] = Resources.Load("Materials/BlueTransparentMaterial") as Material;
+        Material[] newMaterials = { Resources.Load("Materials/BlueTransparentMaterial") as Material, Resources.Load("Materials/RedTransparentMaterial") as Material };
+        m_meshRenderer.materials = newMaterials; 
     }
     private void SetToSolidMaterial()
     {
         //material 1 is the bottom and 0 is the top
-        m_meshRenderer.materials[1] = Resources.Load("Materials/RedSolidMaterial") as Material;
-        m_meshRenderer.materials[0] = Resources.Load("Materials/BlueSolidMaterial") as Material;
+        Material[] newMaterials = { Resources.Load("Materials/BlueSolidMaterial") as Material, Resources.Load("Materials/RedSolidMaterial") as Material };
+        m_meshRenderer.materials = newMaterials;
     }
 
     
