@@ -57,10 +57,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Enemies\BasicEnemyMovement.cs" />
+    <Compile Include="Assets\Scripts\EnemySpawner\EnemySpawner.cs" />
     <Compile Include="Assets\Scripts\Misc\EndZone.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\EnemySpawner\EnemySpawner.cs" />
     <Compile Include="Assets\Scripts\Misc\GameManger.cs" />
+    <Compile Include="Assets\Scripts\Bonuses\GoldCoinMovement.cs" />
+    <Compile Include="Assets\Scripts\Enemies\EnemyClassesParent.cs" />
+    <Compile Include="Assets\Scripts\Enemies\SideMovingEnemyMovement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

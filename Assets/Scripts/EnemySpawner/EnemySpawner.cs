@@ -6,19 +6,21 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     int difficultyModifier, numberOfEnemiesPerSpawn;
-    float spawnCD, spawnCDCounter, increaseDifficultyModifierCounter,enemiesSpeed;
+    float spawnCD, spawnCDCounter, increaseDifficultyModifierCounter, enemiesSpeed;
     List<float> enemySpawnPoints = new List<float>();
 
     void Awake()
     {
+        SetValuesFromDifficultyModifier();
         ResetEnemieSpawnPointsList();
-        SpawnEnemies();
+        SpawnWave();
     }
 
     // Update is called once per frame
     void Update()
     {
         SpawnCountDown();
+        IncreaseDifficultyModifier();
     }
     private void SpawnCountDown()
     {
@@ -29,22 +31,47 @@ public class EnemySpawner : MonoBehaviour
         else
         {
             spawnCDCounter = 0;
-            SpawnEnemies();
+            SpawnWave();
         }
     }
-    private void SpawnEnemies()
+    private void SpawnWave()
+    {
+        int SpecialEncounterChance = Random.Range(0, 100);
+        if (SpecialEncounterChance > difficultyModifier)
+        {
+            SpawnNormalWave();
+
+        }
+        else
+        {
+            SpawnUniqueWave();
+        }
+
+        spawnCDCounter = spawnCD;
+        ResetEnemieSpawnPointsList();
+    }
+    private void SpawnNormalWave()
     {
         for (int i = 0; i < numberOfEnemiesPerSpawn; i++)
         {
             int spawnPointz = Random.Range(0, enemySpawnPoints.Count);
-         GameObject enemy =
-        Instantiate(Resources.Load("BasicEnemy"), new Vector3(transform.position.x, transform.position.y, enemySpawnPoints[spawnPointz]), Quaternion.identity) as GameObject;
-            enemy.GetComponent<BasicEnemyMovement>().speed = enemiesSpeed;
+            GameObject enemy =
+      Instantiate(Resources.Load("Enemies/BasicEnemy"), new Vector3(transform.position.x, transform.position.y, enemySpawnPoints[spawnPointz]), Quaternion.identity) as GameObject;
+            enemy.GetComponent<EnemyClassesParent>().speed = enemiesSpeed;
             enemySpawnPoints.Remove(enemySpawnPoints[spawnPointz]);
 
         }
-        spawnCDCounter = spawnCD;
-        ResetEnemieSpawnPointsList();
+        int spawnPointZCoin = Random.Range(0, enemySpawnPoints.Count);
+        GameObject coin
+    = Instantiate(Resources.Load("Bonuses/GoldCoin"), new Vector3(transform.position.x, transform.position.y, enemySpawnPoints[spawnPointZCoin]), Quaternion.identity) as GameObject;
+        coin.GetComponent<EnemyClassesParent>().speed = enemiesSpeed;
+    }
+
+    private void SpawnUniqueWave()
+    {
+        GameObject enemy =
+ Instantiate(Resources.Load("Enemies/UniqueEnemy1"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+        enemy.GetComponent<EnemyClassesParent>().speed = enemiesSpeed;
     }
     private void ResetEnemieSpawnPointsList()
     {
@@ -54,7 +81,7 @@ public class EnemySpawner : MonoBehaviour
     private void IncreaseDifficultyModifier()
     {
         increaseDifficultyModifierCounter += Time.deltaTime;
-        if (increaseDifficultyModifierCounter >= 500)
+        if (increaseDifficultyModifierCounter >= 30)
         {
             difficultyModifier++;
             SetValuesFromDifficultyModifier();
@@ -91,7 +118,7 @@ public class EnemySpawner : MonoBehaviour
                 enemiesSpeed = 5;
                 break;
             default:
-                numberOfEnemiesPerSpawn =6; 
+                numberOfEnemiesPerSpawn = 6;
                 spawnCD = 1.5f;
                 enemiesSpeed = 5;
                 break;

@@ -10,7 +10,7 @@ public class GameManger : MonoBehaviour
     [SerializeField] TextMeshProUGUI distanceText, scoreText;
     public float distance { get; set; }
     public float score { get; set; }
-    const float scoreAddingMilestone = 250;
+    const float scoreAddingMilestone = 50;
     float scoreAddingMilestoneCounter;
     // Start is called before the first frame update
     void Awake()
@@ -30,7 +30,7 @@ public class GameManger : MonoBehaviour
         scoreAddingMilestoneCounter += Time.deltaTime;
         if (scoreAddingMilestoneCounter >= scoreAddingMilestone)
         {
-            score += 1000;
+            score += 500;
             scoreAddingMilestoneCounter = 0;
         }
     }

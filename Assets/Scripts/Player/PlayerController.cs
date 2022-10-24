@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] MeshRenderer upperBox, lowerBox;
+    MeshRenderer m_meshRenderer;
     Rigidbody m_RigidBody;
     const float gravity = 9.81f;
     int gravityModifier = 1
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         m_RigidBody = GetComponent<Rigidbody>();
-      
+      m_meshRenderer = GetComponent<MeshRenderer>();    
     }
 
     // Update is called once per frame
@@ -123,16 +123,26 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(invulnerabilitytimerCounter >0)
-            return;
-        health--;
-        SetToTransparentMaterial();
-        if (health < 0)
+        if(other.CompareTag("Enemy"))
         {
-            Debug.Log("Death");
-            return;
+            if (invulnerabilitytimerCounter > 0)
+                return;
+            health--;
+            SetToTransparentMaterial();
+            if (health < 0)
+            {
+                Debug.Log("Death");
+                return;
+            }
+            invulnerabilitytimerCounter = invulnerabilityTimer;
         }
-        invulnerabilitytimerCounter = invulnerabilityTimer;
+        else if (other.CompareTag("Coin"))
+        {
+            Destroy(other.gameObject);
+            GameManger.instance.score += 50;
+        }
+       
+      
     }
     private void InvurnabilityTimerCountDown()
     {
@@ -151,13 +161,15 @@ public class PlayerController : MonoBehaviour
     
    private void SetToTransparentMaterial()
     {
-        upperBox.material = Resources.Load("Materials/RedTransparentMaterial") as Material;
-        lowerBox.material = Resources.Load("Materials/BlueTransparentMaterial") as Material;
+        //material 1 is the bottom and 0 is the top
+        m_meshRenderer.materials[1] = Resources.Load("Materials/RedTransparentMaterial") as Material;
+        m_meshRenderer.materials[0] = Resources.Load("Materials/BlueTransparentMaterial") as Material;
     }
     private void SetToSolidMaterial()
     {
-        upperBox.material = Resources.Load("Materials/RedSolidMaterial") as Material;
-        lowerBox.material = Resources.Load("Materials/BlueSolidMaterial") as Material;
+        //material 1 is the bottom and 0 is the top
+        m_meshRenderer.materials[1] = Resources.Load("Materials/RedSolidMaterial") as Material;
+        m_meshRenderer.materials[0] = Resources.Load("Materials/BlueSolidMaterial") as Material;
     }
 
     

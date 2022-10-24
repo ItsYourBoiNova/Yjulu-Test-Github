@@ -3,21 +3,14 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class BasicEnemyMovement : MonoBehaviour
+public class BasicEnemyMovement : EnemyClassesParent
 {
-    public float speed { get; set; }
-    void Start()
+   
+  
+    private void FixedUpdate()
     {
-       
+        this.transform.position += Vector3.right * Time.fixedDeltaTime * speed;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        this.transform.position += Vector3.right * Time.deltaTime * speed;
-    }
-    
-    
 
 
 }
