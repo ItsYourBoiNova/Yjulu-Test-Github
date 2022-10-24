@@ -5,10 +5,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] MeshRenderer upperBox, lowerBox;
     Rigidbody m_RigidBody;
     const float gravity = 9.81f;
-    int gravityModifier = 1,rotationDirection, health=3;
-    float inputDirection,movementSpeed = 200,rotationSpeed = 200;
+    int gravityModifier = 1
+    ,rotationDirection
+    ,health=3;
+    float inputDirection
+    ,movementSpeed = 200
+    ,rotationSpeed = 200
+    ,invulnerabilityTimer =1
+    ,invulnerabilitytimerCounter;
     Vector3 toGoToRotation,currentRotationToVector3;
 
     void Awake()
@@ -20,7 +27,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        InvurnabilityTimerCountDown();
         GetInputDirection();
         Rotate();
         if(Input.GetKeyDown(KeyCode.E))
@@ -94,7 +101,7 @@ public class PlayerController : MonoBehaviour
    
     private void Move()
     {
-        Vector3 movementDirection = new Vector3(0, m_RigidBody.velocity.y, inputDirection * movementSpeed*Time.fixedDeltaTime);
+        Vector3 movementDirection = new Vector3(0, m_RigidBody.velocity.y, inputDirection*gravityModifier * movementSpeed*Time.fixedDeltaTime);
         m_RigidBody.velocity = movementDirection;
     }
 
@@ -116,13 +123,42 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        if(invulnerabilitytimerCounter >0)
+            return;
         health--;
-        if(health < 0)
+        SetToTransparentMaterial();
+        if (health < 0)
         {
             Debug.Log("Death");
+            return;
+        }
+        invulnerabilitytimerCounter = invulnerabilityTimer;
+    }
+    private void InvurnabilityTimerCountDown()
+    {
+        if(invulnerabilitytimerCounter>0)
+        {
+            
+            invulnerabilitytimerCounter -= Time.deltaTime;
+        }
+        else
+        {
+            invulnerabilitytimerCounter = 0;
+            SetToSolidMaterial();
         }
     }
-   
+
+    
+   private void SetToTransparentMaterial()
+    {
+        upperBox.material = Resources.Load("Materials/RedTransparentMaterial") as Material;
+        lowerBox.material = Resources.Load("Materials/BlueTransparentMaterial") as Material;
+    }
+    private void SetToSolidMaterial()
+    {
+        upperBox.material = Resources.Load("Materials/RedSolidMaterial") as Material;
+        lowerBox.material = Resources.Load("Materials/BlueSolidMaterial") as Material;
+    }
 
     
 
