@@ -2,21 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     MeshRenderer m_meshRenderer;
     Rigidbody m_RigidBody;
-    const float gravity = 9.81f;
+    const float gravity = 4.5f;
     int gravityModifier = 1
     ,rotationDirection
     ,health=3;
     float inputDirection
-    ,movementSpeed = 200
+    ,movementSpeed = 300
     ,rotationSpeed = 200
     ,invulnerabilityTimer =1
     ,invulnerabilitytimerCounter;
     Vector3 toGoToRotation,currentRotationToVector3;
+    [SerializeField] Image healthBar;
 
     void Awake()
     {
@@ -27,6 +29,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HealthBarDisplay();
         MovementBoundaries();
         InvurnabilityTimerCountDown();
         GetInputDirection();
@@ -47,6 +50,11 @@ public class PlayerController : MonoBehaviour
     {
         CustomGravity();
         Move();
+    }
+    private void HealthBarDisplay()
+    {
+        float healthFloat = health;
+        healthBar.fillAmount = healthFloat / 3;
     }
     private void Rotate()
     {
@@ -108,13 +116,16 @@ public class PlayerController : MonoBehaviour
 
     private void CustomGravity()
     {
+       
       Vector3 gravityVector = gravity*gravityModifier  * Vector3.down;
       m_RigidBody.AddForce(gravityVector, ForceMode.Acceleration);    
     }
 
     private void SwapGravity()
     {
+        m_RigidBody.velocity = new Vector3(m_RigidBody.velocity.x, 0, m_RigidBody.velocity.z);
         gravityModifier *= -1;
+      
     }
   
     private void GetInputDirection()

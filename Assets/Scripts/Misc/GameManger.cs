@@ -11,7 +11,7 @@ public class GameManger : MonoBehaviour
     [SerializeField] TextMeshProUGUI distanceText, scoreText,finalScoreDisplay;
     public float distance { get; set; }
     public float score { get; set; }
-    const float scoreAddingMilestone = 50;
+    const float scoreAddingMilestone = 10;
     float scoreAddingMilestoneCounter;
     bool paused,gameOver;
     [SerializeField] GameObject pauseMenu,loseMenu;
@@ -40,7 +40,7 @@ public class GameManger : MonoBehaviour
         scoreAddingMilestoneCounter += Time.deltaTime;
         if (scoreAddingMilestoneCounter >= scoreAddingMilestone)
         {
-            score += 500;
+            score += 1000;
             scoreAddingMilestoneCounter = 0;
         }
     }

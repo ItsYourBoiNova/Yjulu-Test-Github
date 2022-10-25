@@ -24,6 +24,6 @@ public class SideMovingEnemyMovement : EnemyClassesParent
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.position += new Vector3(0.7f * speed * Time.fixedDeltaTime, 0, 0.7f * speed * Time.fixedDeltaTime * directionCorrector);
+        transform.position += new Vector3(1 * speed * Time.fixedDeltaTime, 0, 1 * 10 * Time.fixedDeltaTime * directionCorrector);
     }
 }

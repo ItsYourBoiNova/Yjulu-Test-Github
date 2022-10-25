@@ -62,6 +62,7 @@ public class EnemySpawner : MonoBehaviour
 
         }
         int spawnPointZCoin = Random.Range(0, enemySpawnPoints.Count);
+       
         GameObject coin
     = Instantiate(Resources.Load("Bonuses/GoldCoin"), new Vector3(transform.position.x, transform.position.y, enemySpawnPoints[spawnPointZCoin]), Quaternion.identity) as GameObject;
         coin.GetComponent<EnemyClassesParent>().speed = enemiesSpeed;
@@ -76,12 +77,12 @@ public class EnemySpawner : MonoBehaviour
     private void ResetEnemieSpawnPointsList()
     {
         //these values are hard coded based on the plane
-        enemySpawnPoints = new float[] { -4, -2.5f, -1, 0.5f, 3.5f, 5 }.ToList();
+        enemySpawnPoints = new float[] { -4, -2.5f, -1, 0.5f,2, 3.5f, 5 }.ToList();
     }
     private void IncreaseDifficultyModifier()
     {
         increaseDifficultyModifierCounter += Time.deltaTime;
-        if (increaseDifficultyModifierCounter >= 30)
+        if (increaseDifficultyModifierCounter >= 15)
         {
             difficultyModifier++;
             SetValuesFromDifficultyModifier();
@@ -91,32 +92,49 @@ public class EnemySpawner : MonoBehaviour
 
     private void SetValuesFromDifficultyModifier()
     {
+        //max number of enemies = 6
+       
         switch (difficultyModifier)
         {
             case 0:
-                numberOfEnemiesPerSpawn = 3;
-                spawnCD = 3;
-                enemiesSpeed = 5;
+                numberOfEnemiesPerSpawn = 4;
+                spawnCD = 3f;
+                enemiesSpeed = 10;
                 break;
             case 1:
                 numberOfEnemiesPerSpawn = 4;
-                spawnCD = 3;
-                enemiesSpeed = 5;
+                spawnCD = 2.5f;
+                enemiesSpeed = 12;
                 break;
             case 2:
                 numberOfEnemiesPerSpawn = 5;
-                spawnCD = 3;
-                enemiesSpeed = 5;
+                spawnCD = 2.5f;
+                enemiesSpeed = 15;
                 break;
             case 3:
-                numberOfEnemiesPerSpawn = 6;
-                spawnCD = 3;
-                enemiesSpeed = 5;
+                numberOfEnemiesPerSpawn = 5;
+                spawnCD = 2;
+                enemiesSpeed = 17;
                 break;
             case 4:
                 numberOfEnemiesPerSpawn = 6;
                 spawnCD = 2;
-                enemiesSpeed = 5;
+                enemiesSpeed = 20;
+                break;
+            case 5:
+                numberOfEnemiesPerSpawn = 6;
+                spawnCD = 1.5f;
+                enemiesSpeed = 20;
+                break;
+            case 6:
+                numberOfEnemiesPerSpawn = 6;
+                spawnCD = 1.5f;
+                enemiesSpeed = 22;
+                break;
+            case 7:
+                numberOfEnemiesPerSpawn = 6;
+                spawnCD = 1.5f;
+                enemiesSpeed = 25;
                 break;
             default:
                 numberOfEnemiesPerSpawn = 6;
