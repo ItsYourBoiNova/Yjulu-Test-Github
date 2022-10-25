@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        MovementBoundaries();
         InvurnabilityTimerCountDown();
         GetInputDirection();
         Rotate();
@@ -125,16 +126,7 @@ public class PlayerController : MonoBehaviour
     {
         if(other.CompareTag("Enemy"))
         {
-            if (invulnerabilitytimerCounter > 0)
-                return;
-            health--;
-            SetToTransparentMaterial();
-            if (health <= 0)
-            {
-                Debug.Log("Death");
-                return;
-            }
-            invulnerabilitytimerCounter = invulnerabilityTimer;
+            TakeDamage();
         }
         else if (other.CompareTag("Coin"))
         {
@@ -143,6 +135,21 @@ public class PlayerController : MonoBehaviour
         }
        
       
+    }
+
+    private void TakeDamage()
+    {
+        if (invulnerabilitytimerCounter > 0)
+            return;
+        health--;
+        SetToTransparentMaterial();
+        if (health <= 0)
+        {
+            GameManger.instance.GameOver();
+            Destroy(this.gameObject);
+            return;
+        }
+        invulnerabilitytimerCounter = invulnerabilityTimer;
     }
     private void InvurnabilityTimerCountDown()
     {
@@ -170,6 +177,23 @@ public class PlayerController : MonoBehaviour
         //material 1 is the bottom and 0 is the top
         Material[] newMaterials = { Resources.Load("Materials/BlueSolidMaterial") as Material, Resources.Load("Materials/RedSolidMaterial") as Material };
         m_meshRenderer.materials = newMaterials;
+    }
+
+    private void MovementBoundaries()
+    {
+        if(transform.position.z > 10)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, 10);
+        }
+        else if(transform.position.z < -10)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, -10);
+        }
+
+        if(Mathf.Abs(transform.position.y) > 25)
+        {
+            TakeDamage();
+        }
     }
 
     
