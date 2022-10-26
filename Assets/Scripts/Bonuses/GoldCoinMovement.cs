@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GoldCoinMovement : MonoBehaviour
 {
+    [SerializeField] float score;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +15,14 @@ public class GoldCoinMovement : MonoBehaviour
     void Update()
     {
         transform.Rotate(0, 200 * Time.deltaTime, 0);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+           if(other.CompareTag("Player"))
+        {
+            GameManger.instance.AddScore(score);
+            Destroy(gameObject);
+        }
     }
 }

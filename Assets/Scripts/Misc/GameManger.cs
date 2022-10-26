@@ -8,9 +8,8 @@ using UnityEngine.SceneManagement;
 public class GameManger : MonoBehaviour
 {
     public static GameManger instance;
-    [SerializeField] TextMeshProUGUI distanceText, scoreText,finalScoreDisplay;
-    public float distance { get; set; }
-    public float score { get; set; }
+    [SerializeField] TextMeshProUGUI distanceText, scoreText,finalScoreDisplay,addingScoreText;
+    float score, distance;
     const float scoreAddingMilestone = 10;
     float scoreAddingMilestoneCounter;
     bool paused,gameOver;
@@ -40,7 +39,7 @@ public class GameManger : MonoBehaviour
         scoreAddingMilestoneCounter += Time.deltaTime;
         if (scoreAddingMilestoneCounter >= scoreAddingMilestone)
         {
-            score += 1000;
+            AddScore(1000);
             scoreAddingMilestoneCounter = 0;
         }
     }
@@ -86,5 +85,20 @@ public class GameManger : MonoBehaviour
             PlayerPrefs.SetFloat("HighScore", score);
         }    
         Time.timeScale = 0;
+    }
+    public void AddScore(float scoreToAdd)
+    {
+        score += scoreToAdd;
+        StopAllCoroutines();
+        StartCoroutine(ShowScoreAdding(scoreToAdd));
+    }
+    private IEnumerator ShowScoreAdding(float scoreToShow)
+    {
+        addingScoreText.gameObject.SetActive(true);
+        addingScoreText.text = "Score+" + scoreToShow.ToString("f0");
+        yield return new WaitForSeconds(1);
+        addingScoreText.gameObject.SetActive(false);
+
+
     }
 }

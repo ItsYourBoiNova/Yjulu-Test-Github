@@ -138,13 +138,7 @@ public class PlayerController : MonoBehaviour
         if(other.CompareTag("Enemy"))
         {
             TakeDamage();
-        }
-        else if (other.CompareTag("Coin"))
-        {
-            Destroy(other.gameObject);
-            GameManger.instance.score += 50;
-        }
-       
+        }          
       
     }
 
