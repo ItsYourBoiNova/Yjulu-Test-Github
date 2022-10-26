@@ -36,7 +36,7 @@ public class EnemySpawner : MonoBehaviour
     }
     private void SpawnWave()
     {
-        int SpecialEncounterChance = Random.Range(0, 100);
+        int SpecialEncounterChance = Random.Range(0, 15);
         if (SpecialEncounterChance > difficultyModifier)
         {
             SpawnNormalWave();
@@ -73,10 +73,24 @@ public class EnemySpawner : MonoBehaviour
     = Instantiate(Resources.Load("Bonuses/BigBoiCoin"), new Vector3(transform.position.x, transform.position.y * 3, Random.Range(-3,5)), Quaternion.identity) as GameObject;
             bigBoiCoin.GetComponent<EnemyClassesParent>().speed = enemiesSpeed;
         }
+        int sideEnemieSpawn = Random.Range(0, 100);
+        if(  difficultyModifier > sideEnemieSpawn)
+        {
+            SpawnSideEnemies();
+        }
+
         
       
     }
-
+    private void SpawnSideEnemies()
+    {
+        GameObject rightEnemy =
+     Instantiate(Resources.Load("Enemies/BasicEnemy"), new Vector3(transform.position.x,0,6.5f ), Quaternion.Euler(90, 0, 0))  as GameObject;
+        rightEnemy.GetComponent<EnemyClassesParent>().speed = enemiesSpeed;
+        GameObject leftEnemy =
+     Instantiate(Resources.Load("Enemies/BasicEnemy"), new Vector3(transform.position.x, 0, -5.5f), Quaternion.Euler(90, 0, 0)) as GameObject;
+        leftEnemy.GetComponent<EnemyClassesParent>().speed = enemiesSpeed;
+    }
    
     private void SelectUniqueWave()
     {

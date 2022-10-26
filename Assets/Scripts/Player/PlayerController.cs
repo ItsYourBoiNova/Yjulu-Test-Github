@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     MeshRenderer m_meshRenderer;
     Rigidbody m_RigidBody;
-    const float gravity = 4.5f;
+    const float gravity = 4.5f, gravityFlipCD = 1f;
     int gravityModifier = 1
     ,rotationDirection
     ,health=3;
@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour
     ,movementSpeed = 300
     ,rotationSpeed = 200
     ,invulnerabilityTimer =1
-    ,invulnerabilitytimerCounter;
+    ,invulnerabilitytimerCounter
+    ,gravityFlipCdCounter;
     Vector3 toGoToRotation,currentRotationToVector3;
     [SerializeField] Image healthBar;
 
@@ -29,17 +30,18 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GravityFlipInternalCD();
         HealthBarDisplay();
         MovementBoundaries();
         InvurnabilityTimerCountDown();
         GetInputDirection();
-        Rotate();
-        if(Input.GetKeyDown(KeyCode.E))
+        
+        if(Input.GetKeyDown(KeyCode.E) && gravityFlipCdCounter <=0)
         {
             RotateRight();
             
         }
-        else if (Input.GetKeyDown(KeyCode.Q))
+        else if (Input.GetKeyDown(KeyCode.Q) && gravityFlipCdCounter <= 0)
         {
             RotateLeft();   
         }
@@ -48,6 +50,7 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        Rotate();
         CustomGravity();
         Move();
     }
@@ -61,7 +64,7 @@ public class PlayerController : MonoBehaviour
        
         if (Mathf.Abs(Mathf.Abs(toGoToRotation.x) - Mathf.Abs(currentRotationToVector3.x)) > 2 )
         {
-            currentRotationToVector3 += Vector3.right * rotationDirection * rotationSpeed * Time.deltaTime;
+            currentRotationToVector3 += Vector3.right * rotationDirection * rotationSpeed * Time.fixedDeltaTime;
           
         }
        else
@@ -125,6 +128,7 @@ public class PlayerController : MonoBehaviour
     {
         m_RigidBody.velocity = new Vector3(m_RigidBody.velocity.x, 0, m_RigidBody.velocity.z);
         gravityModifier *= -1;
+        gravityFlipCdCounter = gravityFlipCD;
       
     }
   
@@ -201,6 +205,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
+    private void GravityFlipInternalCD()
+    {
+        if(gravityFlipCdCounter >0)
+        {
+            gravityFlipCdCounter -= Time.deltaTime;
+        }
+        else
+        {
+            gravityFlipCdCounter = 0;
+        }
+    }
 
 }
