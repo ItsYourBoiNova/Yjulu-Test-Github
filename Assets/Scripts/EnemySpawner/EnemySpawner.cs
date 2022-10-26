@@ -73,7 +73,7 @@ public class EnemySpawner : MonoBehaviour
     = Instantiate(Resources.Load("Bonuses/BigBoiCoin"), new Vector3(transform.position.x, transform.position.y * 3, Random.Range(-3,5)), Quaternion.identity) as GameObject;
             bigBoiCoin.GetComponent<EnemyClassesParent>().speed = enemiesSpeed;
         }
-        int sideEnemieSpawn = Random.Range(0, 100);
+        int sideEnemieSpawn = Random.Range(0, 30);
         if(  difficultyModifier > sideEnemieSpawn)
         {
             SpawnSideEnemies();

@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     ,rotationDirection
     ,health=3;
     float inputDirection
-    ,movementSpeed = 300
+    ,movementSpeed = 400
     ,rotationSpeed = 200
     ,invulnerabilityTimer =1
     ,invulnerabilitytimerCounter
@@ -154,6 +154,7 @@ public class PlayerController : MonoBehaviour
         SetToTransparentMaterial();
         if (health <= 0)
         {
+            healthBar.fillAmount = 0;
             GameManger.instance.GameOver();
             Destroy(this.gameObject);
             return;

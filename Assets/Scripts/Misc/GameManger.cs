@@ -39,7 +39,7 @@ public class GameManger : MonoBehaviour
         scoreAddingMilestoneCounter += Time.deltaTime;
         if (scoreAddingMilestoneCounter >= scoreAddingMilestone)
         {
-            AddScore(1000);
+            AddScore(500);
             scoreAddingMilestoneCounter = 0;
         }
     }
